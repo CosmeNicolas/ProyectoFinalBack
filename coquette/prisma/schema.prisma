@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Un usuario puede publicar muchos productos
+model Usuario {
+  id            Int        @id @default(autoincrement())
+  nombre        String
+  email         String     @unique
+  telefono      String?
+  productos     Producto[]
+  creadoEn      DateTime   @default(now())
+  actualizadoEn DateTime   @updatedAt
+
+  @@map("usuarios")
+}
+
+// Categorías de prendas usadas
+model Categoria {
+  id        Int        @id @default(autoincrement())
+  nombre    String     @unique
+  productos Producto[]
+  creadoEn  DateTime   @default(now())
+
+  @@map("categorias")
+}
+
+// Una prenda usada publicada por un usuario
+model Producto {
+  id            Int          @id @default(autoincrement())
+  nombre        String
+  descripcion   String       @db.Text
+  precio        Decimal      @db.Decimal(10, 2)
+  talle         String
+  marca         String
+  estadoPrenda  EstadoPrenda
+  imagenUrl     String
+  disponible    Boolean      @default(true)
+  usuarioId     Int
+  categoriaId   Int
+  usuario       Usuario      @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  categoria     Categoria    @relation(fields: [categoriaId], references: [id], onDelete: Restrict)
+  creadoEn      DateTime     @default(now())
+  actualizadoEn DateTime     @updatedAt
+
+  @@map("productos")
+}
+
+enum EstadoPrenda {
+  NUEVO
+  COMO_NUEVO
+  BUENO
+  REGULAR
+}
