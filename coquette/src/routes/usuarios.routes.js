@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   listarUsuarios,
   obtenerUsuario,
+  loginUsuario,
   registrarUsuario,
   modificarUsuario,
   borrarUsuario,
@@ -10,6 +11,7 @@ import {
 const router = Router();
 
 router.get('/', listarUsuarios);
+router.post('/login', loginUsuario);
 router.post('/', registrarUsuario);
 router.get('/:id', obtenerUsuario);
 router.patch('/:id', modificarUsuario);

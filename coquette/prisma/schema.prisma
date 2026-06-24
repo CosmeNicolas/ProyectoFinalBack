@@ -11,6 +11,8 @@ datasource db {
 model Usuario {
   id            Int        @id @default(autoincrement())
   nombre        String
+  nombreUsuario String     @unique @map("nombre_usuario")
+  contrasena    String
   email         String     @unique
   telefono      String?
   productos     Producto[]

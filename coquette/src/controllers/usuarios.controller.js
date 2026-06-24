@@ -19,6 +19,16 @@ export const obtenerUsuario = async (solicitud, respuesta, siguiente) => {
   }
 };
 
+export const loginUsuario = async (solicitud, respuesta, siguiente) => {
+  try {
+    const { nombreUsuario, contrasena } = solicitud.body;
+    const usuario = await servicioUsuarios.iniciarSesion(nombreUsuario, contrasena);
+    respuestaExitosa(respuesta, usuario);
+  } catch (error) {
+    siguiente(error);
+  }
+};
+
 export const registrarUsuario = async (solicitud, respuesta, siguiente) => {
   try {
     const usuarioCreado = await servicioUsuarios.crearUsuario(solicitud.body);

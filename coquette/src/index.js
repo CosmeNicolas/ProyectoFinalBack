@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { configuracion } from './config/variablesEntorno.js';
 import rutasApi from './routes/index.js';
 import { manejadorErrores } from './middlewares/manejadorErrores.js';
@@ -6,6 +7,9 @@ import { rutaNoEncontrada } from './middlewares/rutaNoEncontrada.js';
 
 const aplicacion = express();
 
+aplicacion.use(cors({
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+}));
 aplicacion.use(express.json());
 
 aplicacion.get('/', (solicitud, respuesta) => {
